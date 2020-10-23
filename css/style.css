@@ -26,7 +26,7 @@ ul, ol { list-style-type: none;}
     height:50px; line-height:50px; } */
 
 /* 서브페이지 컨텐트박스 최소높이 */
-#content { min-height:780px }
+#content { min-height:380px }
 
 /* 서브페이지 타이틀 */    
 #content .contTit { display:grid; grid-template-columns: 45px auto;
