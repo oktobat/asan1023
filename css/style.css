@@ -6,7 +6,7 @@ img { vertical-align:middle; }
 ul, ol { list-style-type: none;}
 .blind { position:absolute; width:0; height:0; 
     overflow:hidden; text-indent:-99999px; }
-
+/* body { overflow-y:auto } */
 #wrap { max-width:768px; margin:0 auto; background:#33353f; border:1px solid #ddd }
 
 /* 스크롤이벤트시 헤더를 픽스드 시키는 공식 */
