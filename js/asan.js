@@ -10,43 +10,43 @@
     }
   );
 
-  
+  var usedata;
+  $.ajax({
+    type:'GET',
+    url:'data/doctors.json',
+    beforeSend: function (xhr) {
+      if (xhr.overrideMimeType) {
+        xhr.overrideMimeType("application/json");
+      }
+    },
+    success:function(data){
+       usedata = data
+    },
+    error:function(abc){
+      alert(abc.status + '오류발생')
+    }
+  })
+
+
 
   $('#container').on('click', '.medicalContent .mediList a', function(e){
-      e.preventDefault()
-      var url = this.href;
-      var part = this.id;
-      $("#container > #content").remove();
-      $("#container").load(url + " #content")
+    e.preventDefault()
+    var url = this.href;
+    var part = this.id;
+    $("#container > #content").remove();
+    $("#container").load(url + " #content", function(){
+       var newContent = '';
+       for (var i in usedata[part]) {
+            newContent += `<li><div class="img"><img src="${usedata[part][i].photo}" alt=""></div>`
+            newContent += `<div class="doctorInfo"><strong>${usedata[part][i].name}</strong>`
+            newContent += `<p>${usedata[part][i].depart}</p>`
+            newContent += `<div>${usedata[part][i].about}</div></div></li>`
+       }
+       $('#content .part1DoctorList').html(`<ul>${newContent}</ul>`)
+    })
 
-      $.ajax({
-        type:'GET',
-        url:'data/doctors.json',
-        beforeSend: function (xhr) {
-          if (xhr.overrideMimeType) {
-            xhr.overrideMimeType("application/json");
-          }
-        },
-        success:function(data){
-           var usedata = data[part]
-           var newContent = '';
-           function dataPrint() {
-              for (var i in usedata) {
-                newContent += `<li><div class="img"><img src="${usedata[i].photo}" alt=""></div>`
-                newContent += `<div class="doctorInfo"><strong>${usedata[i].name}</strong>`
-                newContent += `<p>${usedata[i].depart}</p>`
-                newContent += `<div>${usedata[i].about}</div></div></li>`
-              }
-              $('#content .part1DoctorList').html(`<ul>${newContent}</ul>`)
-           }
-           dataPrint()
-        },
-        error:function(abc){
-          alert(abc.status + '오류발생')
-        }
-      })
+})
 
-  })
 
 
 
@@ -54,10 +54,9 @@
   // 헤더박스는 스크롤이벤트시 픽스드됨
   $(window).scroll(function(){
     var sct = $(this).scrollTop()
-    if (sct>=50 && !$('#header').hasClass('on') ) {
-      $('#header').slideUp(100).slideDown(100)
-      .addClass('on')
-    } else if ( sct<50 && $('#header').hasClass('on') ) {
+    if (sct>=10 && !$('#header').hasClass('on') ) {
+      $('#header').addClass('on')
+    } else if ( sct<10 && $('#header').hasClass('on') ) {
       $('#header').removeClass('on')
     }
   })
